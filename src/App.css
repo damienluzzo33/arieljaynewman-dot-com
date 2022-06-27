@@ -16,13 +16,13 @@
 
 a {
   text-decoration: none;
-  color: var(--secondary-home);
+  color: var(--secondary-home) !important;
   transition: color 0.3s linear;
 }
 
 a:hover {
-  text-decoration: none;
-  color: var(--primary-highlight);
+  text-decoration: none !important;
+  color: var(--primary-highlight) !important;
 }
 
 .navbar {
@@ -138,7 +138,7 @@ a:hover {
 
 .sidebar li:hover {
   /* background-color: rgba(255, 255, 255, 0.24); */
-  color: var(--primary-highlight);
+  color: var(--primary-highlight) !important;
 }
 
 .no-hover:hover {
@@ -197,3 +197,48 @@ a:hover {
 .exit-btn {
   height: 24px;
 }
+
+.home-card {
+  width: 100%;
+}
+
+.routing-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.picture-frame {
+  border: 44px solid #F16C71;
+  border-top: 36px solid #F16C71;
+  border-bottom: 36px solid #F16C71;
+  width: 100%;
+  min-height: 215px;
+}
+
+.picture-container {
+  min-width: 215px;
+  min-height: 130px;
+  width: 100%;
+  height: 100%;
+  border: 6px solid #DD3845;
+  border-top: 8px solid #DD3845;
+  border-bottom: 8px solid #DD3845;
+}
+
+.picture-container img {
+  width: 100%;
+  height: 130px;
+  margin: 0;
+  padding: 0;
+}
+
+.card-info-frame {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding-bottom: 70px;
+}
+

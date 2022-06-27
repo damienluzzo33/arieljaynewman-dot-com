@@ -1,9 +1,14 @@
 import React from 'react';
-import { data } from "../data/data.json"
+import { data } from "../data/data.json";
+import RoutingCard from "../components/RoutingCard";
+import FeatureCard from "../components/FeatureCard";
+
 
 export default function Home() {
 
     const homeData = data;
+
+    console.log(homeData);
 
     return (
         <div>
@@ -21,13 +26,12 @@ export default function Home() {
             </main>
             <section className='feature-section'>
                 <div className='home-card'>
-                    {/* <FeatureCard /> */}
+                    <FeatureCard />
                 </div>
                 {
                     homeData.map((routedata) => (
-                        <div className='home-card'>
-                            {/* TODO: NEED TO MAKE THIS COMPONENT */}
-                            {/* <RoutingCard routedata={routedata}/> */}
+                        <div key={`${routedata.id}`} className='home-card'>
+                            <RoutingCard routedata={routedata}/>
                         </div>
                     ))
                 }
