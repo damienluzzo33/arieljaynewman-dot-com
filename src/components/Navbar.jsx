@@ -108,28 +108,34 @@ export default function Navbar() {
                         <ul className="hide shop-options">
                             <li className="hide">
                                 <Link
-                                    to={`/shop/originals`}
+                                    to={`/shop/shopart`}
                                     onClick={closeMenu}
+                                    artType={"original"}
                                 >
                                     original artwork
                                 </Link>
                             </li>
                             <li className="hide">
-                                <Link to={`/shop/ondemand`} onClick={closeMenu}>
+                                <Link
+                                    to={`/shop/shopart`}
+                                    artType={'ondemand'}
+                                    onClick={closeMenu}
+                                >
                                     print-on-demand
                                 </Link>
                             </li>
                             <li className="hide">
                                 <Link
-                                    to={`/shop/limitededition`}
+                                    to={`/shop/shopart`}
                                     onClick={closeMenu}
+                                    artType={"limitededition"}
                                 >
                                     limited edition prints
                                 </Link>
                             </li>
                             <li className="hide">
-                                <Link to={`/shop/niche`} onClick={closeMenu}>
-                                    nfts/tattoos/graphics
+                                <Link to={`/shop/shopdigital`} onClick={closeMenu}>
+                                    nfts / tattoos / graphics
                                 </Link>
                             </li>
                             <li className="hide">

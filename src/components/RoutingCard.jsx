@@ -11,7 +11,7 @@ export default function RoutingCard(props) {
         <div className='routing-card'>
             <div className='picture-frame'>
                 <div className='picture-container'>
-                    <img src="" alt="" />
+                    <img src="./images/placeholder-image.png" alt="" />
                 </div>
             </div>
             <div className='card-info-frame'>

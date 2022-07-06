@@ -104,37 +104,41 @@ export default function Contact() {
     return (
         <section id="contact" className="contact">
             <div className="contactTitleDiv">
-                <h2 className="contact-title">Contact</h2>
+                <h2 className="contact-title">C O N T A C T</h2>
             </div>
             <form id="contactForm" onSubmit={handleFormSubmit}>
-                <div>
+                <div className='contact-info'>
                     <input
+                        className='input-underline'
                         value={firstName}
                         name="firstName"
                         onChange={handleInputChange}
                         type="text"
-                        placeholder=" First Name"
+                        placeholder=" FIRST NAME"
                         onBlur={onBlurFunction}
                     />
                     <input
+                        className='input-underline'
                         value={lastName}
                         name="lastName"
                         onChange={handleInputChange}
                         type="text"
-                        placeholder=" Last Name"
+                        placeholder=" LAST NAME"
                         onBlur={onBlurFunction}
                     />
                     <input
+                        className='input-underline'
                         value={userEmail}
                         name="userEmail"
                         onChange={handleInputChange}
                         type="email"
-                        placeholder=" Email"
+                        placeholder=" YOUR EMAIL"
                         onBlur={onBlurFunction}
                     />
                 </div>
-                <div>
+                <div className='contact-message'>
                     <input
+                        className='input-box'
                         value={subject}
                         name="subject"
                         onChange={handleInputChange}
@@ -142,8 +146,6 @@ export default function Contact() {
                         placeholder=" Subject Line"
                         onBlur={onBlurFunction}
                     />
-                </div>
-                <div>
                     <textarea
                         value={message}
                         name="message"
@@ -153,14 +155,28 @@ export default function Contact() {
                     />
                 </div>
                 <button id="contactSubmit" type="submit">
-                    Submit
+                    SUBMIT
                 </button>
+                <div className='privacy-policy'>
+                    <input type="radio" />
+                    <p>I agree with the privacy policy and terms of service.</p>
+                </div>
             </form>
             {errorMessage && (
                 <div>
                     <p className="errorText">{errorMessage}</p>
                 </div>
             )}
+            <div className='contact-footer'>
+                <img className="instagram-profile-icon" src="./images/insta-icon.svg" alt="instagram logo with profile pic" />
+                <div className='contact-footer-text'>
+                    <h2>@ARIJNEWMAN</h2>
+                    <p>created with &#x2764; in austin,tx</p>
+                </div>
+            </div>
+            <div className='signoff-contact'>
+                @ Ariel Jay Newman 2022
+            </div>
         </section>
     );
 }
