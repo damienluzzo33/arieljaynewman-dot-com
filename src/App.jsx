@@ -8,6 +8,7 @@ import About from './pages/About';
 import Bag from './pages/Bag';
 import Shop from './pages/Shop';
 import CustomProject from './pages/CustomProject';
+import ArtPiecePage from './components/ArtPiecePage';
 
 export default function App() {
     return (
@@ -22,6 +23,7 @@ export default function App() {
                     <Route path="/shop/:path" element={<Shop />}></Route>
                     <Route path="/bag" element={<Bag />}></Route>
                     <Route path="/customproject" element={<CustomProject />}></Route>
+                    <Route path="/:artPiece" element={<ArtPiecePage />}></Route>
                 </Routes>
             </div>
         </Router>

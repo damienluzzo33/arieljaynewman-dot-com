@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import { Link } from "react-router-dom";
 
 let shopItems = [
     {
@@ -10,8 +11,12 @@ let shopItems = [
         pod: true,
         original: false,
         leprints: true,
-        price: 150,
-        key: "takemyhand"
+        price: {
+            limitededition: 110,
+            pod: 50
+        },     
+        key: "takemyhand",
+        choice: ""
     },
     {
         title: "Pot Of Flowers",
@@ -20,8 +25,13 @@ let shopItems = [
         pod: true,
         original: true,
         leprints: true,
-        price: 250,
-        key: "potofflowers"
+        price: {
+            original: 250,
+            limitededition: 100,
+            pod: 50
+        },     
+        key: "potofflowers",
+        choice: ""
     },
     {
         title: "Random Swipes",
@@ -30,8 +40,13 @@ let shopItems = [
         pod: true,
         original: true,
         leprints: true,
-        price: 200,
-        key: "randomswipes"
+        price: {
+            original: 250,
+            limitededition: 100,
+            pod: 50
+        },     
+        key: "randomswipes",
+        choice: ""
     },
     {
         title: "High School Geometry",
@@ -40,13 +55,17 @@ let shopItems = [
         pod: true,
         original: false,
         leprints: true,
-        price: 200,
-        key: "hsgeometry"
+        price: {
+            original: 300,
+            limitededition: 120,
+            pod: 60
+        },        
+        key: "hsgeometry",
+        choice: ""
     }
 ]
 
 export default function ShopArt() {
-    // const { artType } = props;
 
     const defaultRadio = {
         bestsellers: false,
@@ -58,7 +77,6 @@ export default function ShopArt() {
     const [sliderValue, setSliderValue] = React.useState(defaultSlider);
     const [radioFilters, setRadioFilters] = useState(defaultRadio);
     const [cartItems, setCartItems] = useState(shopItems);
-
 
     const sliderAria = () => {
         return `${sliderValue[0]} to ${sliderValue[1]}`;
@@ -79,7 +97,7 @@ export default function ShopArt() {
 
     const handleSorting = (slider, radio) => {
         let filteredAndSorted = shopItems.filter((item) => {
-            if (item.price <= slider[1] && item.price >= slider[0]) {
+            if (item.price.original <= slider[1] && item.price.original >= slider[0]) {
                 return item;
             }
         })
@@ -140,23 +158,39 @@ export default function ShopArt() {
             <div className="shop-art-main">
                 <div className="shop-art-intro">
                     <h2>SHOP ART</h2>
-                    <p>Here you’ll find original paintings and drawings, print-on-demand items and limited edition prints.</p>
+                    <p>Here you will find original paintings and drawings, print-on-demand items and limited edition prints.</p>
                 </div>
                 <div className="shop-art-items">
                     {cartItems.map((item) => (
                         item.type === "original art" &&
                         <div className="shop-art-item" key={item.key}>
-                            <h3>{item.title}</h3>
+                            <div className="shop-item-title">
+                                <h3>{item.title}</h3>
+                                <Link to={`/${item.key}`}>
+                                    <img className="right-arrow-icon" src="../images/right_arrow_oj.png" alt="right arrow" />
+                                </Link>
+                            </div>
+                            
                             <div className="shop-item-img" style={{backgroundImage: `url(${item.imageUrl})`}}></div>
                             <div className="shop-art-save">&#x2764;</div>
                             {item.original && (
-                                <button className="shop-art-button">ORIGINAL ART</button>
+                                <div className="btn-holders">
+                                    <button className="shop-art-button orig-art-button">ORIGINAL ART</button>
+                                    <button className="shop-add add-orig">{item.price.original} - ADD TO BAG</button>
+                                </div>
                             )}
                             {item.pod && (
-                                <button className="shop-art-button">PRINT-ON-DEMAND</button>
+                                <div className="btn-holders">
+                                    <button className="shop-art-button pod-art-button">PRINT-ON-DEMAND</button>
+                                    <button className="shop-add add-pod">DISCOVER</button>
+                                </div>
+                                
                             )}
                             {item.leprints && (
-                                <button className="shop-art-button">LIMITED EDITION PRINTS</button>
+                                <div className="btn-holders">
+                                    <button className="le-art-button shop-art-button">LIMITED EDITION PRINTS</button>
+                                    <button className="shop-add add-le">{item.price.limitededition}</button>
+                                </div>
                             )}
                         </div>
                     ))}

@@ -916,6 +916,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: flex-start;
   padding: 20px;
   border: 1px solid #AFA7A8;
 }
@@ -927,13 +928,13 @@ a:hover {
 .shop-art-item h3 {
   font-weight: 500;
   text-transform: uppercase;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 .shop-item-img {
   width: 300px;
   height: 300px;
-  background-position: left;
+  background-position: top left;
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -943,32 +944,79 @@ a:hover {
   color: red;
 }
 
+.btn-holders {
+  display: flex;
+  width: 100%;
+}
+
+.add-orig, .add-le, .add-pod {
+  width: 80%;
+  font-size: 15px;
+  font-weight: 600;
+  height: 28px;
+  border: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.shop-art-item .shop-add {
+  width: 0%;
+  color: transparent;
+  background-color: transparent;
+  transition: width 0.5s linear;
+}
+
+.shop-art-item:hover .shop-add {
+  color: white;
+  background-color: black;
+  width: 80%;
+}
+
 .shop-art-button {
   margin-bottom: 6px;
-}
-
-.shop-art-button:nth-of-type(1) {
   padding: 3px 12px 3px 12px;
   font-size: 14px;
   border: none;
+  height: 28px;
+}
+
+.orig-art-button {
   background-color: #AAC2C8;
+  width: 130px;
 }
 
-.shop-art-button:nth-of-type(2) {
-  padding: 3px 12px 3px 12px;
-  font-size: 14px;
-  border: none;
+.pod-art-button {
   background-color: #F27F6F;
+  width: 200px;
 }
 
-.shop-art-button:nth-of-type(3) {
-  padding: 3px 12px 3px 12px;
-  font-size: 14px;
-  border: none;
+.le-art-button {
   background-color: #D4B0B2;
+  width: 260px;
 }
 
-/* 
-#F27F6F
-#D4B0B2
-*/
+.shop-item-title {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 70px;
+  cursor: pointer;
+}
+
+.right-arrow-icon {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  transition: background-color 0.5s ease-out;
+}
+
+.shop-item-title:hover .right-arrow-icon {
+  background-color: var(--main-home);
+}
