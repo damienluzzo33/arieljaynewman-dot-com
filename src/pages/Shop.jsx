@@ -1,20 +1,20 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import DigitalArt from './shop/DigitalArt';
 import MoreOptions from './shop/MoreOptions';
 import Sale from './shop/Sale';
 import Error from './Error';
 import ShopArt from './shop/ShopArt';
 
-export default function Shop(props) {
-    const {artType} = props;
+export default function Shop() {
+    const location = useLocation();
+    const { artTypeProp } = location.state;
     const { path } = useParams('path');
-    console.log(path);
 
     const renderShop = () => {
         switch (path) {
             case 'shopart':
-                return <ShopArt artType={artType} />;
+                return <ShopArt artTypeProp={artTypeProp} />;
             case 'shopdigital':
                 return <DigitalArt />;
             case 'more':

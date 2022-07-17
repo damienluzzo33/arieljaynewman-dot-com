@@ -1,45 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { data } from '../data/art.json';
 
-let bagData = [
-    {
-        title: "Take My Hand",
-        imageUrl: "https://images.unsplash.com/photo-1645680827507-9f392edae51c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1032&q=80",
-        type: "original art",
-        price: 150,
-        key: "takemyhand",
-        quantity: 1
-    },
-    {
-        title: "Pot Of Flowers",
-        imageUrl: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=745&q=80",
-        type: "original art",
-        price: 250,
-        key: "potofflowers",
-        quantity: 1
+export default function Bag(props) {
+
+    const { bagItems, removeBagItem, updateBagItems } = props;
+
+    let filteredData = data;
+    for (let bagItem of bagItems) {
+        filteredData = filteredData.filter((item) => item.key !== bagItem.key)
     }
-]
-
-let otherOptions = [
-    {
-        title: "Random Swipes",
-        imageUrl: "https://images.unsplash.com/photo-1536924940846-227afb31e2a5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=866&q=80",
-        type: "original art",
-        price: 200,
-        key: "randomswipes"
-    },
-    {
-        title: "High School Geometry",
-        imageUrl: "https://images.unsplash.com/photo-1569172122301-bc5008bc09c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-        type: "original art",
-        price: 200,
-        key: "hsgeometry"
-    }
-]
-
-export default function Bag() {
+    filteredData = filteredData.slice(0,2);
 
     const [cost, setCost] = useState(0);
-    const [data, setData] = useState(JSON.parse(window.localStorage.getItem("localCart")) || bagData);
+
+    const handleRemoveItem = (e) => {
+        e.preventDefault();
+        let key = e.target.id;
+        let value = bagItems.filter((item) => item.key === key)[0];
+        removeBagItem(value);
+    }
 
     const calculateTotal = (arr) => {
         let currentCost = 0;
@@ -50,17 +30,12 @@ export default function Bag() {
     }
 
     useEffect(() => {
-        calculateTotal(data);
-    }, [data]);
+        calculateTotal(bagItems);
+    }, [bagItems]);
 
     useEffect(() => {
         handleSlider(cost);
     }, [cost])
-
-    const setLocalStorage = (data, key) => {
-        window.localStorage.setItem(key, JSON.stringify(data))
-    }
-
 
     const handleSlider = (cost) => {
         const sliderDiv = document.querySelector(".bag-main-slider");
@@ -71,38 +46,20 @@ export default function Bag() {
         sliderDiv.style.width = css;
     }
 
-    const incrementQuantity = function(event) {
+    const incrementQuantity = (event) => {
         let objKey = event.target.parentNode.parentNode.id;
         console.log(objKey)
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].key === objKey) {
-                let currentData = data;
-                currentData[i].quantity += 1;
-                currentData.splice(i, 1, {
-                    ...currentData[i]
-                })
-                console.log(currentData)
-                setData([...currentData]);
-            }
-        }
-        setLocalStorage(data, "localCart");
+        let specificArt = bagItems.filter((obj) => {
+            console.log(obj)
+            return obj.key === objKey
+        })[0];
+        updateBagItems(specificArt, "add", 1);
     }
 
     const decrementQuantity = (event) => {
         let objKey = event.target.parentNode.parentNode.id;
-        console.log(objKey)
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].key === objKey) {
-                let currentData = data;
-                currentData[i].quantity -= 1;
-                currentData.splice(i, 1, {
-                    ...currentData[i]
-                })
-                console.log(currentData)
-                setData([...currentData]);
-            }
-        }
-        setLocalStorage(data, "localCart");
+        let specificArt = bagItems.filter((obj) => obj.key === objKey)[0];
+        updateBagItems(specificArt, "minus", 1);
     }
 
     return (
@@ -118,7 +75,7 @@ export default function Bag() {
                         </div>
                     </div>
                     <div className='bag-nav-top-right'>
-                        <button>{data.length}</button>
+                        <button>{bagItems.length}</button>
                     </div>
                 </div>
                 <div className='bag-nav-bottom'>
@@ -139,16 +96,16 @@ export default function Bag() {
             
             <div className='bag-cart-container'>
                 {
-                    data.map((obj) => (
+                    bagItems.map((obj) => (
                         <div key={obj.key} className='bag-item-div'>
                             <div className='bag-item-left'>
                                 <div className="bag-img-div">
-                                    <div style={{backgroundImage: `url(${obj.imageUrl})`}} >
+                                    <div style={{backgroundImage: `url(${obj.item.imageUrl})`}} >
                                     </div>
                                 </div>
                                 <div id={obj.key} className="bag-item-info">
-                                    <h2>{obj.title}</h2>
-                                    <button>{obj.type}</button>
+                                    <h2>{obj.item.title}</h2>
+                                    <button>{obj.item.type}</button>
                                     <div className="bag-quantity-div">
                                         <img onClick={decrementQuantity} src="./images/Subtract.png" alt="lessen quantity"/>
                                         <h3>{obj.quantity}</h3>
@@ -158,10 +115,10 @@ export default function Bag() {
                             </div>
                             <div className='bag-item-right'>
                                 <div className="bag-item-cost">
-                                    {obj.price} <span>USD</span>
+                                    {obj.price * obj.quantity} <span>USD</span>
                                 </div>
                                 <div className="bag-item-remove">
-                                    <button>
+                                    <button id={obj.key} onClick={handleRemoveItem}>
                                         <span>
                                             X
                                         </span>
@@ -185,10 +142,14 @@ export default function Bag() {
                     <p>More I think you'll love</p>
                 </div>
                 <div className='more-options'>
-                    {otherOptions.map((option) => (
+                    {filteredData.map((option) => (
                         <div key={option.key} className='option-div'>
                             <div style={{backgroundImage: `url(${option.imageUrl})`}}></div>
-                            <button>SHOP NOW</button>
+                            <button>
+                                <Link to={`/art/${option.key}`}>
+                                SHOP NOW
+                                </Link>
+                            </button>
                         </div>
                     ))}
                 </div>

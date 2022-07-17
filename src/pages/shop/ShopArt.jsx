@@ -2,70 +2,11 @@ import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import { Link } from "react-router-dom";
+import { data } from "../../data/art.json"
 
-let shopItems = [
-    {
-        title: "Take My Hand",
-        imageUrl: "https://images.unsplash.com/photo-1645680827507-9f392edae51c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1032&q=80",
-        type: "digital art",
-        pod: true,
-        original: false,
-        leprints: true,
-        price: {
-            limitededition: 110,
-            pod: 50
-        },     
-        key: "takemyhand",
-        choice: ""
-    },
-    {
-        title: "Pot Of Flowers",
-        imageUrl: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=745&q=80",
-        type: "original art",
-        pod: true,
-        original: true,
-        leprints: true,
-        price: {
-            original: 250,
-            limitededition: 100,
-            pod: 50
-        },     
-        key: "potofflowers",
-        choice: ""
-    },
-    {
-        title: "Random Swipes",
-        imageUrl: "https://images.unsplash.com/photo-1536924940846-227afb31e2a5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=866&q=80",
-        type: "original art",
-        pod: true,
-        original: true,
-        leprints: true,
-        price: {
-            original: 250,
-            limitededition: 100,
-            pod: 50
-        },     
-        key: "randomswipes",
-        choice: ""
-    },
-    {
-        title: "High School Geometry",
-        imageUrl: "https://images.unsplash.com/photo-1569172122301-bc5008bc09c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-        type: "original art",
-        pod: true,
-        original: false,
-        leprints: true,
-        price: {
-            original: 300,
-            limitededition: 120,
-            pod: 60
-        },        
-        key: "hsgeometry",
-        choice: ""
-    }
-]
+export default function ShopArt(props) {
 
-export default function ShopArt() {
+    const {shopArtProp} = props;
 
     const defaultRadio = {
         bestsellers: false,
@@ -76,7 +17,7 @@ export default function ShopArt() {
 
     const [sliderValue, setSliderValue] = React.useState(defaultSlider);
     const [radioFilters, setRadioFilters] = useState(defaultRadio);
-    const [cartItems, setCartItems] = useState(shopItems);
+    const [cartItems, setCartItems] = useState(data);
 
     const sliderAria = () => {
         return `${sliderValue[0]} to ${sliderValue[1]}`;
@@ -96,14 +37,44 @@ export default function ShopArt() {
     }
 
     const handleSorting = (slider, radio) => {
-        let filteredAndSorted = shopItems.filter((item) => {
+
+        console.log(data);
+        console.log(slider);
+        console.log(radio);
+
+        let filteredAndSorted = data.filter((item) => {
             if (item.price.original <= slider[1] && item.price.original >= slider[0]) {
                 return item;
             }
         })
 
-        if (radio.bestsellers) filteredAndSorted.sort((a,b) => a.popularity - b.popularity);
-        else if (radio.newest) filteredAndSorted.sort((a,b) => a.dateAdded - b.dateAdded);
+        console.log(filteredAndSorted);
+
+        filteredAndSorted.sort((a, b) => {
+            if (radio.bestsellers) {
+                return b.totalSales - a.totalSales;
+            } else if (radio.newest) {
+                let arrA = a.dateAdded.split("/");
+                let arrB = b.dateAdded.split("/");
+                if (parseInt(arrB[2]) > parseInt(arrA[2])) {
+                    return 1;
+                } else if (parseInt(arrB[2]) < parseInt(arrA[2])) {
+                    return -1;
+                } else if (parseInt(arrB[0]) > parseInt(arrA[0])) {
+                    return 1;
+                } else if (parseInt(arrB[0]) < parseInt(arrA[0])) {
+                    return -1;
+                } else if (parseInt(arrB[1]) > parseInt(arrA[1])) {
+                    return 1;
+                } else if (parseInt(arrB[1]) < parseInt(arrA[1])) {
+                    return -1;
+                } else return 0;
+            } else {
+                return 0;
+            }
+        })
+
+        console.log(filteredAndSorted);
 
         setCartItems(filteredAndSorted);
     }
@@ -112,7 +83,11 @@ export default function ShopArt() {
         event.preventDefault();
         setRadioFilters(defaultRadio);
         setSliderValue(defaultSlider);
-        setCartItems(shopItems);
+        setCartItems(data);
+        let radio1 = document.getElementById('bestsellers');
+        let radio2 = document.getElementById('newest');
+        radio1.checked = false;
+        radio2.checked = false;
     }
 
     useEffect(() => {
@@ -166,7 +141,7 @@ export default function ShopArt() {
                         <div className="shop-art-item" key={item.key}>
                             <div className="shop-item-title">
                                 <h3>{item.title}</h3>
-                                <Link to={`/${item.key}`}>
+                                <Link to={`/art/${item.key}`}>
                                     <img className="right-arrow-icon" src="../images/right_arrow_oj.png" alt="right arrow" />
                                 </Link>
                             </div>

@@ -51,6 +51,8 @@ export default function Navbar() {
         }
     };
 
+    const artOptions = ["original", "ondemand", "limitededition"]
+
     return (
         <React.Fragment>
             <header className="navbar">
@@ -106,33 +108,17 @@ export default function Navbar() {
                     </li>
                     <li className="hide no-hover">
                         <ul className="hide shop-options">
-                            <li className="hide">
-                                <Link
-                                    to={`/shop/shopart`}
-                                    onClick={closeMenu}
-                                    artType={"original"}
-                                >
-                                    original artwork
-                                </Link>
-                            </li>
-                            <li className="hide">
-                                <Link
-                                    to={`/shop/shopart`}
-                                    artType={'ondemand'}
-                                    onClick={closeMenu}
-                                >
-                                    print-on-demand
-                                </Link>
-                            </li>
-                            <li className="hide">
-                                <Link
-                                    to={`/shop/shopart`}
-                                    onClick={closeMenu}
-                                    artType={"limitededition"}
-                                >
-                                    limited edition prints
-                                </Link>
-                            </li>
+                            {artOptions.map((option) => (
+                                <li className="hide" key={option}>
+                                    <Link
+                                        to={`/shop/shopart`}
+                                        onClick={closeMenu}
+                                        state={{artTypeProp: option}}
+                                    >
+                                        {option} artwork
+                                    </Link>
+                                </li>
+                            ))}
                             <li className="hide">
                                 <Link to={`/shop/shopdigital`} onClick={closeMenu}>
                                     nfts / tattoos / graphics
