@@ -109,6 +109,7 @@ export default function Bag(props) {
             updateBagItems(specificArt, 'minus', 1);
         }
     };
+    
     return (
         <>
         <div className="bag-container">
